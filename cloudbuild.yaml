@@ -1,5 +1,6 @@
 steps:
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/quests-michael/demo-app', '.']
-images:
-- 'gcr.io/quests-michael/demo-app'
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/quests-michael/demo-app', '.']
+  # Push the image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'europe-west3-docker.pkg.dev/quests-michael/demo-app']
