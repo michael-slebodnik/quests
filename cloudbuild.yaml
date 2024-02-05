@@ -1,12 +1,18 @@
 steps:
+  # Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'europe-west3-docker.pkg.dev/quests-michael/demo-app/demo-image:v1', '.']
+
   # Push the image to Container Registry
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'europe-west3-docker.pkg.dev/quests-michael/demo-app/demo-image:v1']
+
+
   - name: 'gcr.io/cloud-builders/gcloud'
     args: ['container', 'clusters', 'get-credentials', 'autopilot-cluster-1', '--region', 'europe-west1', '--project', 'quests-michael']
     id: '3: Retrieve Kubernetes credentials for cluster named autopilot-cluster-1'
+
+
   - name: 'gcr.io/cloud-builders/gcloud'
     args: ['auth', 'configure-docker', '--quiet']
     id: '4: Setup docker to automatically authenticate with Google Cloud Registry (GCR)'
@@ -19,4 +25,4 @@ steps:
         export CLOUDSDK_COMPUTE_ZONE='europe-west1'
         export CLOUDSDK_CONTAINER_CLUSTER='autopilot-cluster-1'
         kubectl apply -f demo-deployment.yaml
-   id: '5: Setup the required env variables for using kubectl to interact with cluster and create Kubernetes deployment named demo-deployment.'
+    id: '5: Setup the required env variables for using kubectl to interact with cluster and create Kubernetes deployment named demo-deployment.'
